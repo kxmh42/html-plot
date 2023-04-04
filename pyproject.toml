@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "html-plot"
-version = "0.1.0"
+version = "0.1.1"
 description = "Functions for creating HTML objects out of Matplotlib plots in Jupyter"
 authors = ["kxmh42 <kxmh42@users.noreply.github.com>"]
 readme = "README.md"
