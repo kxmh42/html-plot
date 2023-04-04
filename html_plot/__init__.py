@@ -9,7 +9,6 @@ import base64
 import mimetypes
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import fluentpy as _
 import IPython.display
 
 def get_dim(plot):
@@ -42,7 +41,7 @@ def html_str(fig = plt, format = "svg"):
         axs = fig.gca()
     else:
         axs = fig.get_axes()
-    filename = _(axs).map(_.each.get_title()._).join('--').replace(' ', '_')._
+    filename = '--'.join([ax.get_title() for ax in axs]).replace(' ', '_')
     tmpfile = io.BytesIO()
     fig.savefig(tmpfile, format=format, bbox_inches='tight')
     mimetype = mimetypes.types_map.get(f".{format}", "")
