@@ -1,5 +1,3 @@
-# `html_plot`
-
 This package can be used to render Matplotlib plots as HTML objects in
 Jupyter, so that they can be placed in HTML tables, downloaded on click,
 and more.
