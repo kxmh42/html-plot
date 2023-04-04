@@ -33,17 +33,27 @@ def ax(title = None, **fig_kwargs):
     """
     return fig(**fig_kwargs).add_subplot(title = title)
 
-def html_str(fig = plt, format = "svg"):
+def html_str(fig_or_ax = None, format = "svg"):
     """
     Create an HTML version of the plot in the specified format
     """
-    if fig == plt:
-        axs = fig.gca()
+    if fig_or_ax is None:
+        _fig = plt
+        _axs = [plt.gca()]
+    elif issubclass(type(fig_or_ax), mpl.figure.Figure):
+        _fig = fig_or_ax
+        _axs = _fig.get_axes()
+    elif issubclass(type(fig_or_ax), mpl.axes.Axes):
+        _fig = fig_or_ax.get_figure()
+        _axs = [fig_or_ax]
+    elif issubclass(type(fig_or_ax), mpl.axes.Axes):
+        _fig = fig_or_ax[0].get_figure()
+        _axs = fig_or_ax
     else:
-        axs = fig.get_axes()
-    filename = '--'.join([ax.get_title() for ax in axs]).replace(' ', '_')
+        raise TypeError("fig_or_ax has a wrong type")
+    filename = '--'.join([ax.get_title() for ax in _axs]).replace(' ', '_')
     tmpfile = io.BytesIO()
-    fig.savefig(tmpfile, format=format, bbox_inches='tight')
+    _fig.savefig(tmpfile, format=format, bbox_inches='tight')
     mimetype = mimetypes.types_map.get(f".{format}", "")
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
     return (
